@@ -34,8 +34,12 @@ app.use('/SmartWaste', router);
 app.use(errorHandler);
 
 
+const PORT = process.env.PORT || 5000;
 
- const PORT =  5000;
+// Your routes and middleware setup
+app.get('/', (req, res) => {
+  res.send('Hello from Render!');
+});
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

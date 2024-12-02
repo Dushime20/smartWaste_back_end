@@ -51,4 +51,32 @@ export const getAllRoute = asyncWrapper(async(req,res,next)=>{
         size:routes.length,
         data: routes,
       });
+});
+
+export const getRouteDetails = asyncWrapper(async(req,res,next)=>{
+    const singleRoute = await routeModel.findById(req.params.id)
+    if(!singleRoute){
+        return next(new NotFoundError("Route not found"))
+    }
+    return res.status(200).json({
+        message:"Route found successfully",
+        data:singleRoute
+    })
+});
+
+export const findRouteByName=asyncWrapper(async(req,res,next)=>{
+    const { route_name } = req.params; // Get the route_name from the request parameters
+
+    // Search for the route by its name
+    const route = await routeModel.findOne({ route_name });
+    if(!route){
+        return next(new NotFoundError("Route not foune!"))
+    }
+    return res.status(200).json(
+       {
+         message:"Route found successfully",
+         success:true,
+         data:route
+       }
+    )
 })
