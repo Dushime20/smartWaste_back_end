@@ -61,3 +61,13 @@ export const addnewMessageValidation = [
     body("email", "email is required").not().isEmpty(),
     body("message", "message is required").not().isEmpty()
 ]
+
+// route validation
+
+export const createRouteValidation =[
+  body('route_name').notEmpty().withMessage('Route name is required'),
+    body('area_covered').notEmpty().withMessage('Area covered is required'),
+    body('collection_days').isArray().withMessage('Collection days must be an array of strings'),
+    body('vehicle_id').notEmpty().withMessage('Vehicle ID is required'),
+    body('status').isIn(['Active', 'Inactive']).withMessage('Status must be either Active or Inactive')
+]

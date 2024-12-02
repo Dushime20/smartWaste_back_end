@@ -7,7 +7,7 @@ import bcryptjs from 'bcryptjs';
 import jwt from "jsonwebtoken";
 import Token from "../Model/authTokenModel.js";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
+
 dotenv.config();
 export const test = (req, res, next) => {
     res.status(200).json({message:'Hello Justice Advocates!'});
@@ -101,6 +101,7 @@ export const getAllusers =  async (req, res, next) => {
         const getUsers = await UserModel.find();
         if(getUsers){
             return res.status(200).json({
+                message:"successfuly",
                 size: getUsers.length,
                 getUsers
             })
@@ -119,7 +120,9 @@ export const getAllusers =  async (req, res, next) => {
             
                     return next(new NotFoundError(`User not found`))
                 }
-            return res.status(200).json({findUserById});
+            return res.status(200).json({user:findUserById,
+                message:"successfull"
+            });
     })
 
     export const updateUserProfile=asyncWrapper(async(req,res,next)=>{
@@ -129,7 +132,20 @@ export const getAllusers =  async (req, res, next) => {
         }
         
         const result = await UserModel.updateOne(req.body);
-        return res.status(200).json(result)
+        return res.status(200).json({
+            user:result,
+            message:"Successfully update user profile"
+        })
+    })
+
+    export const deleteUser = asyncWrapper(async(req,res,next)=>{
+        const deleteUser = await UserModel.findByIdAndDelete(req.params.id)
+        if(!deleteUser){
+            return(new NotFoundError("User not found!"));
+        }
+        return  res.status(200).json({
+            message:"user deleted successfully"
+        })
     })
 
 export const Logout=asyncWrapper(async(req,res,next)=>
