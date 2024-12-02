@@ -1,0 +1,71 @@
+openapi: 3.0.0
+info:
+  title: SmartWaste API
+  version: 1.0.0
+  description: API documentation for the SmartWaste application
+  contact:
+    name: Dushimimana Fabrice
+    email: fabdushime20@gmail.com
+servers:
+  - url: 'http://localhost:5000'
+    description: Local server
+
+paths:
+  /signup:
+    post:
+      summary: User registration
+      description: Register a new user
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                FullName:
+                  type: string
+                  example: "fab"
+                email:
+                  type: string
+                  example: "fab@gmail.com"
+                password:
+                  type: string
+                  example: "1234567"
+                address:
+                  type: string
+                  example: "kigali, nyarugenge"
+                phone_number:
+                  type: string
+                  example: "0789635342"
+      responses:
+        201:
+          description: User account created
+        400:
+          description: Bad Request
+
+  /signin:
+    post:
+      summary: User login
+      description: Login a user
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "fab@gmail.com"
+                password:
+                  type: string
+                  example: "1234567"
+      responses:
+        200:
+          description: User account verified
+        400:
+          description: Bad Request
