@@ -30,7 +30,7 @@ const swaggerDocument = YAML.load( './Doc/swagger.yaml');
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.use('/SmartWaste', router);
+app.use('/smartWaste', router);
 app.use(errorHandler);
 
 

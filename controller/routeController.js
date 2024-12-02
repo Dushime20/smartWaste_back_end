@@ -29,8 +29,8 @@ export const createRoute = asyncWrapper(async(req,res,next)=>{
   const savedRoute = await newRoute.save();
   
   if(savedRoute){
-    const{_id,__v,...response} = savedRoute
-    res.status(201).json({
+    const{__v,$__,...response} = savedRoute.toObject()
+    return res.status(201).json({
         message: 'Waste collection route created successfully!',
         route: response
       });
@@ -79,4 +79,25 @@ export const findRouteByName=asyncWrapper(async(req,res,next)=>{
          data:route
        }
     )
+});
+
+export const updateRoute = asyncWrapper(async(req,res,next)=>{
+const result = await routeModel.findByIdAndUpdate(req.params.id,req.body,{new:true})
+if(!result){
+    return next(new NotFoundError("Route not found"))
+}
+return res.status(200).json({
+    message:"route updated successfully",
+    data:result,
+})
+
+});
+export const deleteRoute = asyncWrapper(async(req,res,next)=>{
+     const result = await routeModel.findByIdAndDelete(req.params.id);
+     if(!result){
+        return next(new NotFoundError("route not found!"))
+     }
+     return res.status(200).json({
+        message:"route deleted successfully"
+     })
 })
