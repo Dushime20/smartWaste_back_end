@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const routeSchema = new mongoose.Schema({
-  route_id: { type: mongoose.Schema.Types.ObjectId, auto: true, primaryKey: true },
+  
   route_name: { type: String, required: true },
   area_covered: { type: String, required: true },
   collection_days: [{ type: String, required: true }], // e.g., ['Monday', 'Thursday']

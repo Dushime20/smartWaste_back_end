@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const recyclingPointSchema = new mongoose.Schema({
-  point_id: { type: mongoose.Schema.Types.ObjectId, auto: true, primaryKey: true },
+  
   location_name: { type: String, required: true },
   address: { type: String, required: true },
   latitude: { type: Number, required: true },

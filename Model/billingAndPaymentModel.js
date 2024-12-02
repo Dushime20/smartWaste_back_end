@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const billingPaymentSchema = new mongoose.Schema({
-  bill_id: { type: mongoose.Schema.Types.ObjectId, auto: true, primaryKey: true },
+  
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   amount_due: { type: Number, required: true },
   due_date: { type: Date, required: true },

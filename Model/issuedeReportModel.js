@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const issueReportSchema = new mongoose.Schema({
-  report_id: { type: mongoose.Schema.Types.ObjectId, auto: true, primaryKey: true },
+  
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   issue_type: { type: String, enum: ['Missed Pickup', 'Overflow', 'Illegal Dumping'], required: true },
   description: { type: String, required: true },

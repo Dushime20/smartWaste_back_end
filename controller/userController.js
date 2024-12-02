@@ -1,12 +1,13 @@
 import UserModel from "../Model/userModel.js";
 import asyncWrapper from "../Middleware/async.js";
-import {BadRequestError,UnauthorizedError} from "../Error/index.js";
+import {BadRequestError,UnauthorizedError,NotFoundError} from "../Error/index.js";
 import {validationResult} from 'express-validator';
 import {sendEmail} from '../Utils/sendEmail.js';
 import bcryptjs from 'bcryptjs';
 import jwt from "jsonwebtoken";
 import Token from "../Model/authTokenModel.js";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
+import mongoose from "mongoose";
 dotenv.config();
 export const test = (req, res, next) => {
     res.status(200).json({message:'Hello Justice Advocates!'});
@@ -86,7 +87,7 @@ export const SignIn=asyncWrapper(async(req,res,next)=>
     //Generate token
     const token = jwt.sign({id:FoundUser.id,email:FoundUser.email},process.env.JWT_SECRET_KEY, {expiresIn:'24h'});
 
-    const[_id,__v,...response]=FoundUser.toObject
+    const{_id,__v,...response}=FoundUser.toObject()
 
     res.status(200).json({
         message:"User account verified!",
@@ -109,6 +110,27 @@ export const getAllusers =  async (req, res, next) => {
     catch (error){
         next(error);  
     }}
+
+
+    export const getUserProfile= asyncWrapper(async(req,res,next)=>{
+        console.log(req.params.id);
+        const findUserById = await UserModel.findById(req.params.id)
+        if(!findUserById){
+            
+                    return next(new NotFoundError(`User not found`))
+                }
+            return res.status(200).json({findUserById});
+    })
+
+    export const updateUserProfile=asyncWrapper(async(req,res,next)=>{
+        const findUser = await UserModel.findById(req.params.id);
+        if(!findUser){
+            return(new NotFoundError("User not found!"));
+        }
+        
+        const result = await UserModel.updateOne(req.body);
+        return res.status(200).json(result)
+    })
 
 export const Logout=asyncWrapper(async(req,res,next)=>
 {
