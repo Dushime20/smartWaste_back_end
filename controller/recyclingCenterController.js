@@ -71,4 +71,14 @@ export const updateRecyclingCenter =  asyncWrapper(async(req,res,next)=>{
 
 export const deleteRecyclingCenter = asyncWrapper(async(req,res,next)=>{
 
+    const pramId = req.params.id
+    const result =  await recyclingCenterModel.findByIdAndDelete(pramId)
+    if(!result){
+        return next(new NotFoundError("Recycling Center not Found"))
+    }
+    return res.status(200).json({
+        success: true,
+        message: "Recycling center deleted successfully"
+    })
+
 })
