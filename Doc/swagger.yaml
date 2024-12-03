@@ -578,6 +578,165 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  
+  
+  /smartWaste/recyclingCenter/add_recycling_center:
+    post:
+      summary: Add a new Recycling Center
+      description: Create a new Recycling Center
+      tags:
+        - Recycling Center
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecyclingCenter' 
+      responses:
+        '201':
+          description: Recycling Center created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecyclingCenter'
+        '400':
+          description: Bad Request (Invalid input)
+        '500':
+          description: Server error (Unable to create recycling center)
+
+  /smartWaste/recyclingCenter/allRecyclingCenter:
+    get:
+      summary: Get all Recycling Centers
+      description: Fetch all available Recycling Centers
+      tags:
+        - Recycling Center
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of all Recycling Centers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RecyclingCenter'
+        '401':
+          description: Unauthorized (Token is missing or invalid)
+        '500':
+          description: Server error (Unable to fetch recycling centers)
+
+  /smartWaste/recyclingCenter/getRecyclingCenterById/{id}:
+    get:
+      summary: Get a Recycling Center detail
+      description: Fetch a Recycling Center details by its ID
+      tags:
+        - Recycling Center
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of Recycling Center
+          schema:
+            type: string    
+      responses:
+        '200':
+          description: Recycling Center details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecyclingCenter'
+        '401':
+          description: Unauthorized (Token is missing or invalid)
+        '500':
+          description: Server error (Unable to fetch recycling center)
+        '404':
+          description: Not Found (Recycling Center does not exist)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /smartWaste/recyclingCenter/updateRecyclingCenterById/{id}:
+    patch:
+      summary: Update Recycling Center
+      description: Update Recycling Center by ID
+      tags:
+        - Recycling Center
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the Recycling Center to be updated
+          schema:
+            type: string
+      requestBody:
+        description: Recycling Center object that needs to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecyclingCenter'
+      responses:
+        '200':
+          description: Recycling Center updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecyclingCenter'
+        '404':
+          description: Recycling Center not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /smartWaste/recyclingCenter/deleteRecyclingCenter/{id}:
+    delete:
+      summary: Delete Recycling Center
+      description: Delete Recycling Center by ID
+      tags:
+        - Recycling Center
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the Recycling Center to be deleted
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Recycling Center deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecyclingCenter'
+        '404':
+          description: Recycling Center not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
 components:
   schemas:
@@ -616,21 +775,20 @@ components:
         route_name:
           type: string
           example: "Route 1"
-        start_point:
+        area_covered:
           type: string
           example: "Point A"
-        end_point:
-          type: string
-          example: "Point B"
         collection_days:
           type: array
           items:
             type: string
           example: ["Monday", "Thursday"]
-        created_at:
+        vehicle_id:
           type: string
-          format: date-time
-          example: "2023-11-27T10:00:00Z"
+          example: "12345"
+        status:
+          type: string
+          example: "Active"  
 
     Vehicle:
       type: object
@@ -655,7 +813,28 @@ components:
           example: 20
         route_id:
           type: string
-          example: "674e0eae523eadf9439e1727"    
+          example: "674e0eae523eadf9439e1727"  
+
+    RecyclingCenter:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+        center_name:
+          type: string
+          example: "Kanombe"
+        address:
+          type: string
+          example: "123 kk,Kicukiro ,kigali, Rwanda"
+        materials_accepted:
+          type: array
+          example: ['plastic','paper','glases']
+        operating_hours:
+          type: string
+          example: "Monday to Friday,9:00 Am to 17:00 Pm"
+            
+
 
     Error:
       type: object
@@ -667,8 +846,8 @@ components:
           type: string
           example: "Invalid request parameters"
 
-securitySchemes:
-  BearerAuth:
-    type: http
-    scheme: bearer
-    bearerFormat: JWT
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
