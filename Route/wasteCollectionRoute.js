@@ -5,7 +5,7 @@ import{createRoute,getAllRoute,getRouteDetails,findRouteByName,deleteRoute,updat
 import{authenticateToken} from "../Middleware/authethicateToken.js";
 
 const route = express.Router();
-route.post("/addRoute",createRouteValidation,createRoute);
+route.post("/addRoute",createRouteValidation,createRoute,authenticateToken);
 route.get("/allRoute",authenticateToken,getAllRoute)
 route.get("/getRouteById/:id",authenticateToken,getRouteDetails)
 route.get("/getRouteByName/:route_name",authenticateToken,findRouteByName)

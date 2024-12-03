@@ -5,10 +5,10 @@ import{addVehicle,deleteVehicle,updateVehicle,getAllVehicles,getVehicleDetails}f
 
 const route = express.Router();
 
-route.post('/addVehicle',createVehiclevalidation,addVehicle)
-route.get('/allVehicle',getAllVehicles)
-route.get('/getVehicleById/:id',getVehicleDetails)
-route.patch('/updateVehicle/:id',updateVehicle)
-route.delete('/deleteVehicle/:id',deleteVehicle)
+route.post('/addVehicle',authenticateToken,createVehiclevalidation,addVehicle)
+route.get('/allVehicle',authenticateToken,getAllVehicles)
+route.get('/getVehicleById/:id',authenticateToken,getVehicleDetails)
+route.patch('/updateVehicle/:id',authenticateToken,updateVehicle)
+route.delete('/deleteVehicle/:id',authenticateToken,deleteVehicle)
 
 export default route;

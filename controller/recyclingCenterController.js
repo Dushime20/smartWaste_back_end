@@ -28,4 +28,16 @@ export const addRecyclingCenter = asyncWrapper(async(req,res,next)=>{
 
         })
     }
+});
+
+export const getAllRecyclingCenter =  asyncWrapper(async(req,res,next)=>{
+    const result = await recyclingCenterModel.find();
+    if(!result || result.length === 0){
+        return next(new NotFoundError("Recycle center not found!"))
+    }
+    return res.status(200).json({
+        message: "recycling center fetched successfully",
+        size:result.length,
+        data: result
+    })
 })
