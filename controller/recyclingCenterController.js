@@ -40,4 +40,17 @@ export const getAllRecyclingCenter =  asyncWrapper(async(req,res,next)=>{
         size:result.length,
         data: result
     })
+});
+
+export const getRecyclingCenterDetails = asyncWrapper(async(req,res,next)=>{
+    const idParams = req.params.id
+    const result = await recyclingCenterModel.findById(idParams)
+    if(!result){
+        return next(new NotFoundError("Recycling Center not found!"))
+    }
+    return res.status(200).json({
+        success:true,
+        message: "Recycling Center fetched successfully",
+        data: result
+    })
 })
