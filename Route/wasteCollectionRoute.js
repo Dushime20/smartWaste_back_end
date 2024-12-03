@@ -1,5 +1,5 @@
 import express from 'express'
-import{createRouteValidation} from "../Utils/validation.js"
+import{createRouteValidation,validateUpdate} from "../Utils/validation.js"
 import{createRoute,getAllRoute,getRouteDetails,findRouteByName,deleteRoute,updateRoute} from "../controller/routeController.js"
 
 import{authenticateToken} from "../Middleware/authethicateToken.js";
@@ -9,7 +9,7 @@ route.post("/addRoute",createRouteValidation,createRoute,authenticateToken);
 route.get("/allRoute",authenticateToken,getAllRoute)
 route.get("/getRouteById/:id",authenticateToken,getRouteDetails)
 route.get("/getRouteByName/:route_name",authenticateToken,findRouteByName)
-route.patch("/updateRoute/:id",authenticateToken,updateRoute)
+route.patch("/updateRoute/:id",authenticateToken,validateUpdate,updateRoute)
 route.delete("/deleteRoute/:id",authenticateToken,deleteRoute)
 
 

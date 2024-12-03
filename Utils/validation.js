@@ -1,5 +1,10 @@
-import {body} from 'express-validator';
+import {body,validationResult} from 'express-validator';
 import { check } from 'express-validator';
+import {BadRequestError} from '../Error/BadRequestError.js'
+
+
+
+
 export const forgotpasswordValidation=[
     body("Email","Email is required").not().isEmpty(),
 ];
@@ -61,6 +66,30 @@ export const addnewMessageValidation = [
     body("email", "email is required").not().isEmpty(),
     body("message", "message is required").not().isEmpty()
 ];
+
+//update validation
+export const validateUpdate = [
+  // Check if the body is empty
+  
+  body().custom(value => {
+      if (Object.keys(value).length === 0) {
+        
+          throw new Error('Input field you want to update is empty');
+         
+      }
+      console.log("error");
+      return true;
+  }),
+  // Other validation rules can be added here
+  (req, res, next) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+          return next(new BadRequestError(errors.array().map(err => err.msg).join(', ')));
+      }
+      next();
+  }
+];
+
 
 // route validation
 

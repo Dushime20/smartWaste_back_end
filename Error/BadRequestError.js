@@ -6,4 +6,6 @@ export class BadRequestError extends CustomError {
         super(message);
         this.statusCode=400;
     }
-}
+} 
+
+

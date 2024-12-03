@@ -57,7 +57,8 @@ export const getRecyclingCenterDetails = asyncWrapper(async(req,res,next)=>{
 
 export const updateRecyclingCenter =  asyncWrapper(async(req,res,next)=>{
     const paramId = req.params.id
-    const result = await recyclingCenterModel.findByIdAndUpdate(paramId,req.body,{next:true})
+    const  reqBody = req.body
+    const result = await recyclingCenterModel.findByIdAndUpdate(paramId,reqBody,{next:true})
     if(!result){
         return next(new NotFoundError("Recycling Center not found!"));
 
@@ -66,4 +67,8 @@ export const updateRecyclingCenter =  asyncWrapper(async(req,res,next)=>{
         success:true,
         message:"Recycling Center updated successfully"
     })
+});
+
+export const deleteRecyclingCenter = asyncWrapper(async(req,res,next)=>{
+
 })
