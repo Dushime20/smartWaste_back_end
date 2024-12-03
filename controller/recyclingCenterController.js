@@ -14,9 +14,11 @@ export const addRecyclingCenter = asyncWrapper(async(req,res,next)=>{
         return next(new BadRequestError(" Recycling Center already exist"))
     }
 
-    const newRecyclingCenter = new recyclingCenterModel((
+    const newRecyclingCenter = new recyclingCenterModel({
         center_name,address,materials_accepted,operating_hours
-    ));
+    
+    
+});
     const savedRecyclingCenter = await newRecyclingCenter.save()
     if(savedRecyclingCenter){
         return res.status(200).json({

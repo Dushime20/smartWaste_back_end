@@ -60,7 +60,7 @@ export const addnewMessageValidation = [
     body("name", "name is required").not().isEmpty(),
     body("email", "email is required").not().isEmpty(),
     body("message", "message is required").not().isEmpty()
-]
+];
 
 // route validation
 
@@ -70,7 +70,7 @@ export const createRouteValidation =[
     body('collection_days').isArray().withMessage('Collection days must be an array of strings'),
     body('vehicle_id').notEmpty().withMessage('Vehicle ID is required'),
     body('status').isIn(['Active', 'Inactive']).withMessage('Status must be either Active or Inactive')
-]
+];
 
 //vehicles validation
 
@@ -81,5 +81,15 @@ export const createVehiclevalidation =[
   body('status').isIn(['Available', 'In-Service', 'Maintenance']).withMessage('status is required or in(Available, In-Service, Maintenance) '),
   body('fuel_usage').isFloat({ min: 0 }).withMessage('fuel_usage is required'),
   body('route_id').notEmpty().withMessage('route_id is required')
+
+];
+
+// recycling center validation
+//center_name,address,materials_accepted,operating_hours
+export const createRecyclingCenterValidation=[
+ body('center_name').notEmpty().withMessage("center name is required"),
+ body('address').notEmpty().withMessage("address is required"),
+ body('materials_accepted').notEmpty().withMessage('materials accepted is required'),
+ body('operating_hours').notEmpty().withMessage('operating hours is required')
 
 ]
