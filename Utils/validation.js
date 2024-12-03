@@ -71,3 +71,15 @@ export const createRouteValidation =[
     body('vehicle_id').notEmpty().withMessage('Vehicle ID is required'),
     body('status').isIn(['Active', 'Inactive']).withMessage('Status must be either Active or Inactive')
 ]
+
+//vehicles validation
+
+export const createVehiclevalidation =[
+  body('license_plate').notEmpty().withMessage('license_plate is required'),
+  body('driver_name').notEmpty().withMessage("driver_name is required"),
+  body('gps_coordinates').notEmpty().withMessage('gps_coordinates is required'),
+  body('status').isIn(['Available', 'In-Service', 'Maintenance']).withMessage('status is required or in(Available, In-Service, Maintenance) '),
+  body('fuel_usage').isFloat({ min: 0 }).withMessage('fuel_usage is required'),
+  body('route_id').notEmpty().withMessage('route_id is required')
+
+]

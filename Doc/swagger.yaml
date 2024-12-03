@@ -241,7 +241,7 @@ paths:
   /smartWaste/route/addRoute:
     post:
       summary: Add a new waste collection route
-      description: Create a new waste collection route with specified details.
+      description: Create a new waste collection route with specified details
       tags:
         - Routes
       security:
@@ -263,7 +263,7 @@ paths:
   /smartWaste/route/allRoute:
     get:
       summary: Get all waste collection routes
-      description: Fetch all available waste collection routes.
+      description: Fetch all available waste collection routes
       tags:
         - Routes
       security:
@@ -284,8 +284,8 @@ paths:
 
   /smartWaste/route/getRouteById/{id}:
     get:
-      summary: Get waste collection routes
-      description: Fetch waste collection routes by id.
+      summary: Get waste collection route by ID
+      description: Fetch waste collection route by ID
       tags:
         - Routes
       security:
@@ -294,7 +294,7 @@ paths:
         - name: id
           in: path
           required: true
-          description: ID of Route
+          description: ID of the route
           schema:
             type: string
       responses:
@@ -307,14 +307,18 @@ paths:
         '401':
           description: Unauthorized (Token is missing or invalid)
         '500':
-          description: Server error (Unable to fetch routes)
+          description: Server error (Unable to fetch route)
         '404':
-          description: Not Found (Unable to fetch routes)
+          description: Not Found (Route does not exist)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /smartWaste/route/getRouteByName/{route_name}:
     get:
-      summary: Get waste collection routes
-      description: Fetch waste collection routes by route name.
+      summary: Get waste collection route by name
+      description: Fetch waste collection route by route name
       tags:
         - Routes
       security:
@@ -336,14 +340,18 @@ paths:
         '401':
           description: Unauthorized (Token is missing or invalid)
         '500':
-          description: Server error (Unable to fetch routes)
+          description: Server error (Unable to fetch route)
         '404':
-          description: Not Found (Unable to fetch routes)
+          description: Not Found (Route does not exist)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /smartWaste/route/updateRoute/{id}:
     patch:
-      summary: Update Route
-      description: Update waste collection route by id
+      summary: Update route
+      description: Update waste collection route by ID
       tags:
         - Routes
       security:
@@ -369,17 +377,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Route'
-        '401':
-          description: Unauthorized (Token is missing or invalid)
         '404':
-          description: Not Found (Route does not exist)
-        '500':
-          description: Server error (Unable to update route)
+          description: Route not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /smartWaste/route/deleteRoute/{id}:
     delete:
-      summary: Delete Route
-      description: Delete a waste collection route by id
+      summary: Delete route
+      description: Delete waste collection route by ID
       tags:
         - Routes
       security:
@@ -398,59 +412,263 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Route'
+        '404':
+          description: Route not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /smartWaste/vehicle/addVehicle:
+    post:
+      summary: Add a new vehicle
+      description: Create a new vehicle
+      tags:
+        - Vehicles
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+      responses:
+        '201':
+          description: Vehicle created successfully
+        '400':
+          description: Bad Request (Invalid input)
+        '500':
+          description: Server error (Unable to create vehicle)
+
+  /smartWaste/vehicle/allVehicle:
+    get:
+      summary: Get all vehicles
+      description: Fetch all available vehicles
+      tags:
+        - Vehicles
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of all vehicles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehicle'
         '401':
           description: Unauthorized (Token is missing or invalid)
-        '404':
-          description: Not Found (Route does not exist)
         '500':
-          description: Server error (Unable to delete route)
+          description: Server error (Unable to fetch vehicles)
+
+  /smartWaste/vehicle/getVehicleById/{id}:
+    get:
+      summary: Get vehicle by ID
+      description: Fetch vehicle by ID
+      tags:
+        - Vehicles
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the vehicle
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Vehicle details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+        '401':
+          description: Unauthorized (Token is missing or invalid)
+        '500':
+          description: Server error (Unable to fetch vehicle)
+        '404':
+          description: Not Found (Vehicle does not exist)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /smartWaste/vehicle/updateVehicle/{id}:
+    patch:
+      summary: Update vehicle
+      description: Update vehicle by ID
+      tags:
+        - Vehicles
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the vehicle to be updated
+          schema:
+            type: string
+      requestBody:
+        description: Vehicle object that needs to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+      responses:
+        '200':
+          description: Vehicle updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+        '404':
+          description: Vehicle not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /smartWaste/vehicle/deleteVehicle/{id}:
+    delete:
+      summary: Delete vehicle
+      description: Delete vehicle by ID
+      tags:
+        - Vehicles
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the vehicle to be deleted
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Vehicle deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+        '404':
+          description: Vehicle not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
 components:
-  securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
   schemas:
     User:
       type: object
       properties:
         id:
           type: string
-          example: "12345"
+          example: "1"
         FullName:
           type: string
           example: "fab"
         email:
           type: string
           example: "fab@gmail.com"
+        password:
+          type: string
+          example: "1234567"
         address:
           type: string
           example: "kigali, nyarugenge"
         phone_number:
           type: string
           example: "0789635342"
+        created_at:
+          type: string
+          format: date-time
+          example: "2023-11-27T10:00:00Z"
+
     Route:
       type: object
       properties:
         id:
           type: string
-          example: "12345"
+          example: "1"
         route_name:
           type: string
-          example: "Kiyovu"
-        area_covered:
+          example: "Route 1"
+        start_point:
           type: string
-          example: "Nyarugenge sector"
+          example: "Point A"
+        end_point:
+          type: string
+          example: "Point B"
         collection_days:
           type: array
+          items:
+            type: string
           example: ["Monday", "Thursday"]
-        waste_collector_id:
+        created_at:
           type: string
-          example: "54321"
+          format: date-time
+          example: "2023-11-27T10:00:00Z"
+
+    Vehicle:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+        license_plate:
+          type: string
+          example: "RAC1234"
+        driver_name:
+          type: string
+          example: "willson"
+        gps_coordinates:
+          type: string
+          example: "1.9706° S, 30.1044° E"
+        status:
+          type: string
+          example: "In-Service"
+        fuel_usage:
+          type: float
+          example: 20
+        route_id:
+          type: string
+          example: "674e0eae523eadf9439e1727"    
+
     Error:
       type: object
       properties:
+        code:
+          type: integer
+          example: 400
         message:
           type: string
-          example: "Error message"
+          example: "Invalid request parameters"
+
+securitySchemes:
+  BearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT

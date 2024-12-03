@@ -14,7 +14,7 @@
  * If the application is running in a development environment,the stack trace of the error is also included in the response.
 */
 const errorHandler=(err,req,res,next) => {
-    console.log("error handlere");
+    
     const errstatus = err.status || 500;
     const errmessage = err.message || "Internal server error";
     res.status(errstatus).json({
